@@ -1,8 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {Router, LocationProvider} from '@reach/router';
 
-class App extends Component {
+import createHashSource from 'hash-source';
+import {createHistory} from '@reach/router';
+
+const source = createHashSource();
+const customHistory = createHistory(source);
+
+class Route extends Component {
   render() {
     return (
       <div className="App">
@@ -15,12 +22,23 @@ class App extends Component {
             className="App-link"
             href="https://reactjs.org"
             target="_blank"
-            rel="noopener noreferrer"
-          >
+            rel="noopener noreferrer">
             Learn React
           </a>
         </header>
       </div>
+    );
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <LocationProvider history={customHistory}>
+        <Router style={{height: '100%'}}>
+          <Route path="default" default />
+        </Router>
+      </LocationProvider>
     );
   }
 }
